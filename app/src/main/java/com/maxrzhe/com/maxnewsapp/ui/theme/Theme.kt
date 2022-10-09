@@ -3,15 +3,22 @@ package com.maxrzhe.com.maxnewsapp.ui.theme
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 private val DarkColorPalette = darkColors(
-    primary = Color.Green,
-    background = DarkBlue,
-    onPrimary = Color.DarkGray,
-    onBackground = TextWhite
+    primary = Purple200,
+    primaryVariant = Blue700,
+    secondary = Teal200,
+    background = BackgroundGray,
+    surface = BackgroundGray,
+    error = ErrorRed,
+
+    onPrimary = Color.Black,
+    onSecondary = Color.Black,
+    onBackground = Color.White,
+    onSurface = Color.White,
+    onError = Color.Black
 )
 
 //private val LightColorPalette = lightColors(

@@ -4,8 +4,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Divider
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -21,6 +21,9 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import com.maxrzhe.com.maxnewsapp.presentation.news_list.components.DefaultTopBar
+import com.maxrzhe.com.maxnewsapp.presentation.news_list.components.NewsCard
+import com.maxrzhe.com.maxnewsapp.presentation.news_list.components.SearchAppBar
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -88,15 +91,8 @@ fun HomeScreen(
                             state = swipeRefreshState,
                             onRefresh = { viewModel.onEvent(HomeScreenEvent.Refresh) }) {
                             LazyColumn() {
-                                items(state.data.size) { index ->
-                                    val article = state.data[index]
-                                    Text(text = article.title ?: "")
-                                    Text(text = article.description ?: "")
-                                    if (index < state.data.size) {
-                                        Divider(
-                                            modifier = Modifier.padding(horizontal = 16.dp)
-                                        )
-                                    }
+                                items(state.data) { article ->
+                                    NewsCard(article = article)
                                 }
                             }
                         }

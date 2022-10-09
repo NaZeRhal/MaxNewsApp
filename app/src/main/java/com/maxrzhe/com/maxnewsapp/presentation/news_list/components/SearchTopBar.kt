@@ -1,6 +1,5 @@
-package com.maxrzhe.com.maxnewsapp.presentation.news_list
+package com.maxrzhe.com.maxnewsapp.presentation.news_list.components
 
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardActions
