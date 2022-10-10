@@ -6,8 +6,8 @@ import com.maxrzhe.com.maxnewsapp.data.NewsCategory
 
 @Entity
 data class TopHeadlineEntity(
-    @PrimaryKey
-    val id: Int? = null,
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0,
     val author: String?,
     val publishedAt: String?,
     val title: String?,

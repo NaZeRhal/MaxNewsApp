@@ -20,6 +20,7 @@ fun Article.toEntity(category: NewsCategory): TopHeadlineEntity = TopHeadlineEnt
 )
 
 fun TopHeadlineEntity.toModel(): ArticleModel = ArticleModel(
+    id = id,
     author = author,
     content = content,
     description = description,

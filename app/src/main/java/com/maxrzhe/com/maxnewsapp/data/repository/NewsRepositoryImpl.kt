@@ -55,4 +55,16 @@ class NewsRepositoryImpl @Inject constructor(
                 }
             }
         }
+
+    override fun getArticleById(articleId: Long): Flow<Resource<ArticleModel?>> = flow {
+        emit(Resource.Loading(true))
+        try {
+            val article = db.topHeadlinesDao.getArticleById(articleId)?.toModel()
+            emit(Resource.Loading(false))
+            emit(Resource.Success(data = article))
+        } catch (e: Exception) {
+            emit(Resource.Loading(false))
+            emit(Resource.Error(message = e.message ?: "Unexpected error"))
+        }
+    }
 }

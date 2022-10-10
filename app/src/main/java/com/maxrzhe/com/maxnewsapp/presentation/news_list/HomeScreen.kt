@@ -28,7 +28,8 @@ import com.maxrzhe.com.maxnewsapp.presentation.news_list.components.SearchAppBar
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun HomeScreen(
-    viewModel: NewsViewModel = hiltViewModel()
+    viewModel: NewsViewModel = hiltViewModel(),
+    onNavigateToDetails: (id: Long) -> Unit
 ) {
     val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = viewModel.state.isRefreshing)
     val state = viewModel.state
@@ -92,7 +93,10 @@ fun HomeScreen(
                             onRefresh = { viewModel.onEvent(HomeScreenEvent.Refresh) }) {
                             LazyColumn() {
                                 items(state.data) { article ->
-                                    NewsCard(article = article)
+                                    NewsCard(
+                                        article = article,
+                                        onNavigateToDetails = onNavigateToDetails
+                                    )
                                 }
                             }
                         }

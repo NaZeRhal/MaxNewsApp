@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ArticleModel(
+    val id: Long,
     val author: String?,
     val publishedAt: String?,
     val source: SourceModel?,

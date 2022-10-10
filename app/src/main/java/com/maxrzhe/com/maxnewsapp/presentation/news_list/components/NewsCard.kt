@@ -18,7 +18,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImagePainter
@@ -27,20 +26,27 @@ import coil.compose.SubcomposeAsyncImageContent
 import coil.request.ImageRequest
 import com.maxrzhe.com.maxnewsapp.R
 import com.maxrzhe.com.maxnewsapp.domain.model.ArticleModel
+import com.maxrzhe.com.maxnewsapp.ui.theme.HighTextGray
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Composable
-fun NewsCard(article: ArticleModel) {
+fun NewsCard(
+    modifier: Modifier = Modifier,
+    article: ArticleModel,
+    onNavigateToDetails: (id: Long) -> Unit
+) {
     val context = LocalContext.current
 
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .sizeIn(maxHeight = 160.dp)
             .padding(vertical = 4.dp)
-            .clickable { },
+            .clickable { onNavigateToDetails(article.id) },
         elevation = 4.dp,
         shape = RoundedCornerShape(8.dp),
-        backgroundColor = MaterialTheme.colors.surface
+        backgroundColor = MaterialTheme.colors.surface,
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -115,15 +121,27 @@ fun NewsCard(article: ArticleModel) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(
                     modifier = Modifier
-                        .align(Alignment.End)
-                        .weight(0.2f)
+                        .fillMaxWidth()
+                        .weight(0.2f),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     article.source?.name?.let {
                         Text(
                             text = it,
-                            fontSize = 14.sp,
-                            color = MaterialTheme.colors.primary,
+                            fontSize = 12.sp,
+                            color = HighTextGray,
                             fontWeight = FontWeight.Bold,
+                            letterSpacing = 0.75.sp
+                        )
+                    }
+                    article.publishedAt?.let { dateTime ->
+                        val date = LocalDateTime.parse(dateTime, DateTimeFormatter.ISO_DATE_TIME)
+                        val time = date.format(DateTimeFormatter.ofPattern("HH:mm"))
+                        Text(
+                            text = time,
+                            fontSize = 12.sp,
+                            color = HighTextGray,
                             letterSpacing = 0.75.sp
                         )
                     }
@@ -131,21 +149,4 @@ fun NewsCard(article: ArticleModel) {
             }
         }
     }
-}
-
-@Composable
-fun FetchedImage(imageUrl: String?) {
-
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-
-    }
-}
-
-@Preview
-@Composable
-fun NewsCardPreview() {
-
 }

@@ -28,4 +28,7 @@ interface TopHeadlinesDao {
         """
     )
     suspend fun searchTopHeadlines(category: NewsCategory, query: String): List<TopHeadlineEntity>
+
+    @Query("SELECT * FROM TopHeadlineEntity WHERE id=:articleId")
+    suspend fun getArticleById(articleId: Long): TopHeadlineEntity?
 }
