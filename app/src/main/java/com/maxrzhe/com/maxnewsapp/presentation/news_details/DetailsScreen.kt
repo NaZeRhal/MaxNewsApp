@@ -5,6 +5,7 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,7 +18,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 fun DetailsScreen(
     viewModel: DetailsViewModel = hiltViewModel()
 ) {
-    val state = viewModel.state
+    val state = viewModel.state.collectAsState().value
     val uriHandler = LocalUriHandler.current
 
     Surface() {

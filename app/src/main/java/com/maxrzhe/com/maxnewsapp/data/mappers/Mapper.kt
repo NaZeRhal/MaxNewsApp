@@ -6,7 +6,7 @@ import com.maxrzhe.com.maxnewsapp.data.remote.dto.Article
 import com.maxrzhe.com.maxnewsapp.domain.model.ArticleModel
 import com.maxrzhe.com.maxnewsapp.domain.model.SourceModel
 
-fun Article.toEntity(category: NewsCategory): TopHeadlineEntity = TopHeadlineEntity(
+fun Article.toEntity(category: String): TopHeadlineEntity = TopHeadlineEntity(
     author = author,
     content = content,
     description = description,
@@ -28,7 +28,7 @@ fun TopHeadlineEntity.toModel(): ArticleModel = ArticleModel(
     title = title,
     url = url,
     urlToImage = urlToImage,
-    category = category,
+    category = NewsCategory.valueOf(category.uppercase()),
     source = SourceModel(
         id = sourceId,
         name = sourceName

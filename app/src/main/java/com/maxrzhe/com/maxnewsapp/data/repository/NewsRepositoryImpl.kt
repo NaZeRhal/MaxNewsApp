@@ -1,12 +1,13 @@
 package com.maxrzhe.com.maxnewsapp.data.repository
 
-import com.maxrzhe.com.maxnewsapp.data.NewsCategory
+import android.util.Log
 import com.maxrzhe.com.maxnewsapp.data.local.NewsDB
 import com.maxrzhe.com.maxnewsapp.data.mappers.toEntity
 import com.maxrzhe.com.maxnewsapp.data.mappers.toModel
 import com.maxrzhe.com.maxnewsapp.data.remote.api.NewsService
 import com.maxrzhe.com.maxnewsapp.domain.model.ArticleModel
 import com.maxrzhe.com.maxnewsapp.domain.repository.NewsRepository
+import com.maxrzhe.com.maxnewsapp.presentation.TAG
 import com.maxrzhe.com.maxnewsapp.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -19,12 +20,14 @@ class NewsRepositoryImpl @Inject constructor(
     override fun getTopHeadlines(
         shouldFetchFromRemote: Boolean,
         query: String,
-        category: NewsCategory
+        category: String
     ): Flow<Resource<List<ArticleModel>>> =
         flow {
+            Log.w(TAG, "getTopHeadlines category: $category")
             emit(Resource.Loading(true))
             val topHeadlineNews =
                 db.topHeadlinesDao.searchTopHeadlines(category = category, query = query)
+            Log.w(TAG, "topHeadlineNews: ${topHeadlineNews.map { it.category }}")
             emit(Resource.Success(data = topHeadlineNews.map { it.toModel() }))
 
             val isDbEmpty = topHeadlineNews.isEmpty() && query.isBlank()

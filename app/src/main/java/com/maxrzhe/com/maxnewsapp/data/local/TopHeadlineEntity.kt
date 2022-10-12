@@ -17,5 +17,5 @@ data class TopHeadlineEntity(
     val urlToImage: String?,
     val sourceId: String?,
     val sourceName: String?,
-    val category: NewsCategory
+    val category: String
 )

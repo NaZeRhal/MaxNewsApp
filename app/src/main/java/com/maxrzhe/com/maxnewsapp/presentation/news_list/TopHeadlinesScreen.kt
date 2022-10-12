@@ -9,6 +9,7 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -27,12 +28,11 @@ import com.maxrzhe.com.maxnewsapp.presentation.news_list.components.SearchAppBar
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun HomeScreen(
-    viewModel: NewsViewModel = hiltViewModel(),
-    onNavigateToDetails: (id: Long) -> Unit
+fun TopHeadlinesScreen(
+    viewModel: TopHeadlinesViewModel = hiltViewModel(),
 ) {
-    val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = viewModel.state.isRefreshing)
-    val state = viewModel.state
+    val state = viewModel.state.collectAsState().value
+    val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = state.isRefreshing)
 
     val interactionSource = remember { MutableInteractionSource() }
     val keyBoardController = LocalSoftwareKeyboardController.current
@@ -42,11 +42,11 @@ fun HomeScreen(
         if (state.isSearchBarOpened) {
             SearchAppBar(
                 query = state.searchQuery,
-                onQueryChanged = { viewModel.onEvent(HomeScreenEvent.OnSearchQueryChange(it)) },
-                onCloseClicked = { viewModel.onEvent(HomeScreenEvent.OnCloseSearchBar) },
+                onQueryChanged = { viewModel.onEvent(ToHeadlinesScreenEvent.OnSearchQueryChange(it)) },
+                onCloseClicked = { viewModel.onEvent(ToHeadlinesScreenEvent.OnCloseSearchBar) },
             )
         } else {
-            DefaultTopBar(onSearchClicked = { viewModel.onEvent(HomeScreenEvent.OnOpenSearchBar) })
+            DefaultTopBar(onSearchClicked = { viewModel.onEvent(ToHeadlinesScreenEvent.OnOpenSearchBar) })
         }
     }) { paddings ->
         Column(
@@ -90,12 +90,12 @@ fun HomeScreen(
                         }
                         SwipeRefresh(
                             state = swipeRefreshState,
-                            onRefresh = { viewModel.onEvent(HomeScreenEvent.Refresh) }) {
+                            onRefresh = { viewModel.onEvent(ToHeadlinesScreenEvent.Refresh) }) {
                             LazyColumn() {
                                 items(state.data) { article ->
                                     NewsCard(
                                         article = article,
-                                        onNavigateToDetails = onNavigateToDetails
+                                        onNavigateToDetails = viewModel::onNavigateToDetailsScreen
                                     )
                                 }
                             }

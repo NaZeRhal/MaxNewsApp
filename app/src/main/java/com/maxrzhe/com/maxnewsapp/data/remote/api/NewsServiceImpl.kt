@@ -18,14 +18,14 @@ class NewsServiceImpl @Inject constructor(
     private val client: HttpClient
 ) : NewsService {
 
-    override suspend fun getTopHeadlines(category: NewsCategory): List<Article?> {
+    override suspend fun getTopHeadlines(category: String): List<Article?> {
         return try {
             val response = client.get {
                 url(
                     HttpRouts.createUrlString(
                         HttpRouts.TOP_HEADLINES,
                         mapOf(
-                            "category" to category.name.lowercase(),
+                            "category" to category,
                             "country" to Locale.getDefault().country,
                             "pageSize" to 100,
                         )

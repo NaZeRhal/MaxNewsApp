@@ -15,19 +15,19 @@ interface TopHeadlinesDao {
     suspend fun clearTopHeadlines()
 
     @Query("DELETE FROM TopHeadlineEntity WHERE category=:category")
-    suspend fun clearTopHeadlinesByCategory(category: NewsCategory)
+    suspend fun clearTopHeadlinesByCategory(category: String)
 
     @Query(
         """
             SELECT *
             FROM TopHeadlineEntity
             WHERE category=:category
-            AND LOWER(title) LIKE '%' || LOWER(:query) || '%'
+            AND (LOWER(title) LIKE '%' || LOWER(:query) || '%'
             OR LOWER(description) LIKE '%' || LOWER(:query) || '%'
-            OR LOWER(content) LIKE '%' || LOWER(:query) || '%'
+            OR LOWER(content) LIKE '%' || LOWER(:query) || '%')
         """
     )
-    suspend fun searchTopHeadlines(category: NewsCategory, query: String): List<TopHeadlineEntity>
+    suspend fun searchTopHeadlines(category: String, query: String): List<TopHeadlineEntity>
 
     @Query("SELECT * FROM TopHeadlineEntity WHERE id=:articleId")
     suspend fun getArticleById(articleId: Long): TopHeadlineEntity?
